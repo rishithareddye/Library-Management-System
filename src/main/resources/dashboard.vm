@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron">
+      <h1>Library Management</h1>
+    </div>
+
+    <div class="container">
+    <h1>Welcome, $user.getName()</h1>
+    <a href="/logout">Logout</a>
+
+    <h2>Borrowed Items</h2>
+
+
+    <table class="table table-striped">
+
+    
+    <tr>
+        <td>Id</td>
+        <td>Title</td>
+        <td>Author</td>
+        <td>Type</td>
+        <td>is_best_seller</td>
+        <td>Published on</td>
+        <td>Borrowed On</td>
+        <td>Due On</td>
+        <td>Return</td>
+        <td>Renew</td>
+    </tr>
+
+    #foreach($book in $borrowedBooks)
+        <tr>
+            <td>$book.getId()</td>
+            <td>$book.getTitle()</td>
+            <td>$book.getAuthor()</td>
+            <td>$book.getType()</td>
+            <td>$book.isBestSeller()</td>
+            <td>$book.getPublishedOn()</td>
+            <td>$book.getCheckedOutAt()</td>
+            <td>$book.getDueAt()</td>
+            <td>
+                <form action="/return" method="post">
+                    <input type="hidden" value="$book.getId()" name="book_id" />
+                    <input type="submit" class="btn btn-primary" value="Return" />
+                </form>
+            </td>
+            <td>
+                <form action="/renew" method="post">
+                    <input type="hidden" value="$book.getId()" name="book_id" />
+                    <input type="submit" class="btn btn-primary" value="Renew" />
+                </form>
+            </td>
+        </tr>
+    #end
+
+</table>
+<br/>
+<hr>
+<h2>All Items</h2>
+
+
+<table class="table table-striped">
+    
+    <tr>
+        <td>Id</td>
+        <td>Title</td>
+        <td>Author</td>
+        <td>Type</td>
+        <td>is_best_seller</td>
+        <td>Published on</td>
+        <td>Action</td>
+    </tr>
+
+    #foreach($book in $books)
+        <tr #if( $book.getBorrowed())style="background-color: blue; color: white;"#{else}style=""#end>
+            <td>$book.getId()</td>
+            <td>$book.getTitle()</td>
+            <td>$book.getAuthor()</td>
+            <td>$book.getType()</td>
+            <td>$book.isBestSeller()</td>
+            <td>$book.getPublishedOn()</td>
+            <td>
+                #if( !$book.getBorrowed() )
+                <form action="/borrow" method="post">
+                    <input type="hidden" value="$book.getId()" name="book_id" />
+                    <input type="hidden" value="$user.getId()" name="checked_out_by" />
+                #if($book.isNotMag())
+                    <input type="submit" class="btn btn-primary" value="Borrow" />
+                #end
+                
+                #if($book.getBorrowed())
+                    <input type="submit" class="btn btn-primary" value="Borrow" />
+                #end
+                </form>
+                #else
+                    Borrowed
+                #end
+            </td>
+        </tr>
+    #end
+
+</table>
+
+<h2>Requestable Items</h2>
+<table class="table table-striped">
+<tr>
+        <td>Id</td>
+        <td>Title</td>
+        <td>Author</td>
+        <td>Type</td>
+        <td>is_best_seller</td>
+        <td>Published on</td>
+        <td>Action</td>
+    </tr>
+
+    
+    #foreach($book in $BorrowedBooks)
+        <tr>
+            <td>$book.getId()</td>
+            <td>$book.getTitle()</td>
+            <td>$book.getAuthor()</td>
+            <td>$book.getType()</td>
+            <td>$book.isBestSeller()</td>
+            <td>$book.getPublishedOn()</td>
+            <td>
+                <form action="/request" method="post">
+                    <input type="hidden" value="$book.getId()" name="book_id" />
+                    <input type="submit" class="btn btn-primary" value="Request" />
+                </form>
+            </td>
+            
+        </tr>
+    #end
+
+</table>
+
+
+    </div>
+        <table class="table table-striped">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>UserName</td>
+        <td>Age</td>
+        <td>Address</td>
+        <td>Phone</td>
+    </tr>
+<h2>User Details</h2>
+    
+        <tr>
+            <td>$user.getId()</td>
+            <td>$user.getName()</td>
+            <td>$user.getUsername()</td>
+            <td>$user.getAge()</td>
+            <td>$user.getAddress()</td>
+            <td>$user.getPhone()</td>
+        </tr>
+
+</table>
+</div>
+</body>
+</html>
