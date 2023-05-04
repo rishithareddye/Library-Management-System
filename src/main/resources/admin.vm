@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron">
+      <h1>Library Management</h1>
+    </div>
+    
+    <div class="container">
+    <h1>Welcome, $user.getName()</h1>
+
+    <a href="/logout">Logout</a>
+    <p>Note: This is the admin page.</p>
+
+    <h2>Borrowed Books</h2>
+
+
+    <table class="table table-striped">
+
+#set ( $dollar_sign = "$")
+
+<table class="table table-striped">
+
+    <tr>
+        <td>Id</td>
+        <td>Title</td>
+        <td>Author</td>
+        <td>Type</td>
+        <td>is_best_seller</td>
+        <td>Published on</td>
+        <td>Borrowed By</td>
+        <td>Borrowed On</td>
+        <td>Due On</td>
+        <td>Over Due Cost</td>
+    </tr>
+
+    #foreach($book in $borrowedBooks)
+        <tr>
+            <td>$book.getId()</td>
+            <td>$book.getTitle()</td>
+            <td>$book.getAuthor()</td>
+            <td>$book.getType()</td>
+            <td>$book.isBestSeller()</td>
+            <td>$book.getPublishedOn()</td>
+            <td>$book.getBorrowedUser().getName()</td>
+            <td>$book.getCheckedOutAt()</td>
+            <td>$book.getDueAt()</td>
+            <td>#if($book.isOverDue())${dollar_sign}$book.getOverDueFine()#{else}$0#end</td>
+        </tr>
+    #end
+
+</table><br/>
+
+<hr>
+
+<h2>All Books</h2>
+<table class="table table-striped">
+
+    <tr>
+        <td>Id</td>
+        <td>Title</td>
+        <td>Author</td>
+        <td>Type</td>
+        <td>is_best_seller</td>
+        <td>Published on</td>
+    </tr>
+
+    #foreach($book in $books)
+        <tr>
+            <td>$book.getId()</td>
+            <td>$book.getTitle()</td>
+            <td>$book.getAuthor()</td>
+            <td>$book.getType()</td>
+            <td>$book.isBestSeller()</td>
+            <td>$book.getPublishedOn()</td>
+        </tr>
+    #end
+
+</table>
+
+
+    </div>
+        <table class="table table-striped">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>UserName</td>
+        <td>Age</td>
+        <td>Address</td>
+        <td>Phone</td>
+    </tr>
+<h2>User Details</h2>
+    
+        <tr>
+            <td>$user.getId()</td>
+            <td>$user.getName()</td>
+            <td>$user.getUsername()</td>
+            <td>$user.getAge()</td>
+            <td>$user.getAddress()</td>
+            <td>$user.getPhone()</td>
+        </tr>
+
+</table>
+
+<div class="text-center">
+    <a href = "/removeUser" class="btn btn-primary" >Remove a user</a>
+</div>
+<div class="text-center">
+    <a href = "/addBook" class="btn btn-primary" >Add a Book</a>
+</div>
